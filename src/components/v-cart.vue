@@ -1,10 +1,17 @@
 <template>
     <div class="v-cart-wrapper">
-        <vCartItem />
+        <h2>{{title}}</h2>
+        <vCartItem
+          v-for="(item, index) in cart_data"
+          :key="item.article"
+          :cart_item_data="item"
+          @deleteFromCart="deleteFromCart(index)"
+        />
     </div>
 </template>
 <script>
 import vCartItem from './v-cart-item.vue'
+import { mapActions } from 'vuex'
 
 export default {
 
@@ -12,7 +19,14 @@ export default {
   components: {
     vCartItem
   },
-  props: {},
+  props: {
+    cart_data: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
       title: 'Cart'
@@ -22,7 +36,10 @@ export default {
 
   },
   methods: {
-
+    ...mapActions(['REMOVE_FROM_CART']),
+    deleteFromCart (index) {
+      this.REMOVE_FROM_CART(index)
+    }
   },
   watch: {
 
@@ -32,7 +49,13 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .v-cart-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      color: gray;
+      font-size: 20px;
+      margin-bottom: 150px;
     }
 </style>
