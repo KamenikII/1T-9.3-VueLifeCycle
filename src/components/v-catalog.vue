@@ -1,6 +1,12 @@
 <template>
-  <h1>Catalog</h1>
   <div class='v-catalog-wrapper'>
+    <router-link :to="{ name: 'cart', params: { cart_data: CART } }">
+      <div class="v-catalog__link_to_cart">
+        <i class="medium material-icons">shopping_cart</i>
+        {{CART.length}}
+      </div>
+    </router-link>
+
     <div class="v-catalog__list">
       <vCatalogItem
       v-for="product in PRODUCTS"
@@ -28,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['PRODUCTS'])
+    ...mapGetters(['PRODUCTS', 'CART'])
   },
   methods: {
     ...mapActions(['GET_PRODUCT', 'ADD_TO_CART']),
@@ -48,11 +54,21 @@ export default {
 }
 </script>
 <style lang='scss'>
-  .v-catalog__list,
-  .v-catalog-wrapper {
+  .v-catalog-wrapper,
+  .v-catalog__list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
+  }
+  // .v-catalog-wrapper {
+  //     display: flex;
+  //     justify-content: center;
+  // }
+  .v-catalog__link_to_cart {
+    padding: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 15px;
   }
 </style>
