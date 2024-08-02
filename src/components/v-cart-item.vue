@@ -1,15 +1,37 @@
 <template>
     <div class="v-cart-item-wrapper">
-        <p>{{title}}</p>
+      <img
+        class="v-cart-item__img"
+        :src="require('../assets/images/' + cart_item_data.image)"
+        alt="picture"
+      />
+      <div>
+        <p>{{cart_item_data.name}}</p>
+        <p>{{cart_item_data.price}}</p>
+      </div>
+
+      <div class="v-cart-item__count">
+        <p>Количество: </p>
+        <span>
+          {{ cart_item_data.quantity }}
+        </span>
+      </div>
+      <button @click="deleteFromCart">Remove</button>
     </div>
 </template>
+
 <script>
 export default {
   name: 'v-cart-item-wrapper',
-  components: {
-
+  components: {},
+  props: {
+    cart_item_data: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
   },
-  props: {},
   data () {
     return {
       title: 'Cart item'
@@ -19,7 +41,9 @@ export default {
 
   },
   methods: {
-
+    deleteFromCart () {
+      this.$emit('deleteFromCart', this.cart_item_data)
+    }
   },
   watch: {
 
@@ -29,6 +53,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
     .v-cart-item-wrapper {
         display: flex;
@@ -39,5 +64,8 @@ export default {
         box-shadow: 0 0 8px 0 grey;
         padding: 20px;
         margin: 2px;
+        &__img {
+          min-width: 10%;
+        }
     }
 </style>
