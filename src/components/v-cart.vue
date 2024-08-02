@@ -1,8 +1,16 @@
 <template>
     <div class="v-cart-wrapper">
-        <h2>{{title}}</h2>
+        <div class="v-catalog__link_to_cart">
+          <i class="medium material-icons">shopping_cart</i>
+          {{CART.length}}
+        </div>
+        <router-link :to="{ name: 'catalog'}">
+          <button class="btn">Back to catalog</button>
+        </router-link>
+
+        <h2 v-if="!CART.length">There is only space...</h2>
         <vCartItem
-          v-for="(item, index) in cart_data"
+          v-for="(item, index) in CART"
           :key="item.article"
           :cart_item_data="item"
           @deleteFromCart="deleteFromCart(index)"
@@ -11,7 +19,7 @@
 </template>
 <script>
 import vCartItem from './v-cart-item.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
 
@@ -33,7 +41,7 @@ export default {
     }
   },
   computed: {
-
+    ...mapGetters(['CART'])
   },
   methods: {
     ...mapActions(['REMOVE_FROM_CART']),
@@ -57,5 +65,6 @@ export default {
       color: gray;
       font-size: 20px;
       margin-bottom: 150px;
+      margin: 0 160px;
     }
 </style>
